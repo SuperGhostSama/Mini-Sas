@@ -4,8 +4,8 @@ public class LibraryUser {
     private String email;
     private String phone;
 
-    public LibraryUser(int id, String name, String email, String phone) {
-        this.id = id;
+
+    public LibraryUser(String name, String email, String phone) {
         this.name = name;
         this.email = email;
         this.phone = phone;
@@ -25,5 +25,17 @@ public class LibraryUser {
 
     public String getPhone() {
         return phone;
+    }
+
+    //METHODS
+    public String addUser(String name, String email , String phone) {
+        //Create UserLogic
+
+        return "Added successfully";
+    }
+
+    public String deleteUser(int userId) {
+        //Delete User Logic
+        return "Deleted successfully";
     }
 }

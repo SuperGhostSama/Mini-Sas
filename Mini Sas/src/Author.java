@@ -14,4 +14,22 @@ public class Author {
     public String getName() {
         return name;
     }
+
+    //METHODS
+
+    public String addAuthor(String name){
+        //
+        return "Added successfully";
+    }
+
+    public String editAuthor(int id, String name){
+        //
+        return "Edited successfully";
+    }
+
+    public String deleteAuthor(int id){
+        //
+        return "Deleted successfully";
+    }
+
 }

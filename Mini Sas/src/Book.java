@@ -1,3 +1,4 @@
+import java.util.List;
 public class Book {
     private int id;
     private String title;
@@ -54,5 +55,27 @@ public class Book {
 
     public int getLost() {
         return lost;
+    }
+
+    //METHODS
+    public List<Book> showBook(Book book){
+        //
+        return null;
+    }
+
+
+    public String addBook(){
+        //
+        return "Added successfully";
+    }
+
+    public String editBook(int id, String title, Author author, String isbn, int quantity, int available, int reserved, int lost){
+        //
+        return "Edited successfully";
+    }
+
+    public String deleteBook(int id){
+        //
+        return "Deleted successfully";
     }
 }

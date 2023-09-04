@@ -50,4 +50,16 @@ public class BorrowingRecord {
     public void setReturnDate(Date returnDate) {
         this.returnDate = returnDate;
     }
+
+    //METHODS
+    public String borrowBook(Book book) {//ISBN
+
+        return "Borrowed successfully";
+    }
+
+    public String returnBook() {//ISBN
+
+        return "Returned successfully";
+    }
+
 }
