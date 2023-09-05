@@ -1,3 +1,6 @@
+CREATE DATABASE biblio;
+USE biblio;
+
 CREATE TABLE Author (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL
@@ -23,18 +26,22 @@ CREATE TABLE Book (
 );
 
 CREATE TABLE BorrowingRecord (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      book_id INT,
-      libraryuser_id INT,
-      borrowdate DATE,
-      returndate DATE,
-      FOREIGN KEY (book_id) REFERENCES Book(id),
-      FOREIGN KEY (libraryuser_id) REFERENCES LibraryUser(id)
+     id INT AUTO_INCREMENT PRIMARY KEY,
+     book_id INT,
+     libraryuser_id INT,
+     borrowdate DATE,
+     returndate DATE,
+     last_updated TIMESTAMP,
+     FOREIGN KEY (book_id) REFERENCES Book(id),
+     FOREIGN KEY (libraryuser_id) REFERENCES LibraryUser(id)
 );
 
+DELIMITER //
 CREATE TRIGGER update_timestamp
     BEFORE UPDATE ON BorrowingRecord
     FOR EACH ROW
 BEGIN
     SET NEW.last_updated = NOW();
-END;
+END ;
+// DELIMITER ;
+
