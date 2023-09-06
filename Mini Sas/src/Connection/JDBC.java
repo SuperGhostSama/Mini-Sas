@@ -1,19 +1,18 @@
 package Connection;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class JDBC {
-    private static Connection con;
-    public static void main(String[] args) {
-        try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/biblio", "root", "");
-            System.out.println(con);
-            System.out.println("Connection Success");
-        } catch (Exception e) {
-            System.out.println("Connection Failed");
-        }
-    }
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/biblio";
+    private static final String JDBC_USER = "root";
+    private static final String JDBC_PASSWORD = "";
+
     public static Connection getConnection() {
-        return con;
+        try {
+            return DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error connecting to the database", e);
+        }
     }
 }
