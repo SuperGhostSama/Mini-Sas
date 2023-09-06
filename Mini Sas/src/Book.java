@@ -34,6 +34,8 @@ public class Book {
         this.lost = lost;
     }
 
+
+
     public int getId() {
         return id;
     }
@@ -130,11 +132,34 @@ public class Book {
         return "Added successfully";
     }
 
-    public String editBook(){
-        //
-        String updateSql = "";
+    public String editBook() {
+        String updateSql = "UPDATE books SET title = ?, author_id = ?,isbn = ?, quantity = ?, available = ?, reserved = ?, lost = ? WHERE id = ?";
 
-        return "Edited successfully";
+        try (Connection connection = JDBC.getConnection();
+             PreparedStatement statement = connection.prepareStatement(updateSql)) {
+
+            // Set the parameters in the prepared statement
+            statement.setString(1, this.title);
+            statement.setObject(2, this.author.getId());
+            statement.setString(3, this.isbn);
+            statement.setInt(4, this.quantity);
+            statement.setInt(5, this.available);
+            statement.setInt(6, this.reserved);
+            statement.setInt(7, this.lost);
+            statement.setInt(8, this.id);
+
+            // Execute the update statement
+            int rowsUpdated = statement.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                return "Edited successfully";
+            } else {
+                return "Book with ID " + id + " not found.";
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "Error editing book: " + e.getMessage();
+        }
     }
 
     public static String deleteBook(int id) {

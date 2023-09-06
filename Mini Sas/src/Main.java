@@ -56,6 +56,34 @@ public class Main {
                     break;
                 case 3:
                     //
+                    System.out.println("Enter Book Id To Edit :");
+                    int editId = Integer.parseInt(scanner.nextLine());
+
+                    System.out.println("Enter New Title :");
+                    String newTitle = scanner.nextLine();
+
+                    System.out.println("Enter New author id :");
+                    int newAuthor_id = Integer.parseInt(scanner.nextLine());
+                    author = new Author(newAuthor_id);
+
+                    System.out.println("Enter New isbn :");
+                    String newIsbn = scanner.nextLine();
+
+                    System.out.println("Enter New quantity :");
+                    int newQuantity = Integer.parseInt(scanner.nextLine());
+
+                    System.out.println("Enter New available :");
+                    int newAvailable = Integer.parseInt(scanner.nextLine());
+
+                    System.out.println("Enter New reserved :");
+                    int newReserved = Integer.parseInt(scanner.nextLine());
+
+                    System.out.println("Enter New lost :");
+                    int newLost = Integer.parseInt(scanner.nextLine());
+
+                    Book bookToEdit= new Book(editId,newTitle,author, newIsbn,newQuantity,newAvailable,newReserved,newLost);
+                    bookToEdit.editBook();
+
 
                     break;
                 case 4:
