@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -25,7 +26,7 @@ public class Main {
 
             switch (choice) {
                 case 1:
-                    Book.showBooks();
+                    //Book.showBooks();//not working yet
                     break;
                 case 2:
                     System.out.println("dkhel Title :");
@@ -55,9 +56,15 @@ public class Main {
                     break;
                 case 3:
                     //
+
                     break;
                 case 4:
                     //
+                    System.out.println("Enter Book Id To Delete :");
+                    int bookid = Integer.parseInt(scanner.nextLine());
+
+                    String deleteResult = Book.deleteBook(bookid);
+                    System.out.println(deleteResult);
                     break;
                 case 5:
                     //
@@ -93,6 +100,10 @@ public class Main {
                     }
             }
         }
+
+
+
+
     }
 
 

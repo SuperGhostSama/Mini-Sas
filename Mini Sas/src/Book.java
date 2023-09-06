@@ -94,7 +94,7 @@ public class Book {
                 int reserved = resultSet.getInt("reserved");
                 int lost = resultSet.getInt("lost");
 
-                // Create an Author object if you have an Author class
+                // Create an Author object
                 Author author = new Author(authorId);
 
                 // Create a Book object and add it to the list
@@ -132,11 +132,31 @@ public class Book {
 
     public String editBook(){
         //
+        String updateSql = "";
+
         return "Edited successfully";
     }
 
-    public String deleteBook(int id){
-        //
-        return "Deleted successfully";
+    public static String deleteBook(int id) {
+        String deleteSql = "DELETE FROM books WHERE id = ?";
+
+        try (Connection connection = JDBC.getConnection();
+             PreparedStatement statement = connection.prepareStatement(deleteSql)) {
+
+            // Set the id parameter in the prepared statement
+            statement.setInt(1, id);
+
+            // Execute the delete statement
+            int rowsDeleted = statement.executeUpdate();
+
+            if (rowsDeleted > 0) {
+                return "Deleted successfully";
+            } else {
+                return "Book with ID " + id + " not found.";
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "Error deleting book: " + e.getMessage();
+        }
     }
 }
