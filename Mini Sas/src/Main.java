@@ -26,7 +26,11 @@ public class Main {
 
             switch (choice) {
                 case 1:
-                    //Book.showBooks();//not working yet
+
+                    for (Book book :Book.showBooks() ) {
+                        System.out.println(book.toString());
+                    }
+
                     break;
                 case 2:
                     System.out.println("dkhel Title :");

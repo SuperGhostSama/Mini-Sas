@@ -34,7 +34,19 @@ public class Book {
         this.lost = lost;
     }
 
-
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", author=" + author +
+                ", isbn='" + isbn + '\'' +
+                ", quantity=" + quantity +
+                ", available=" + available +
+                ", reserved=" + reserved +
+                ", lost=" + lost +
+                '}';
+    }
 
     public int getId() {
         return id;
