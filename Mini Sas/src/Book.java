@@ -33,20 +33,25 @@ public class Book {
         this.reserved = reserved;
         this.lost = lost;
     }
-
     @Override
     public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", author=" + author.getName() +
-                ", isbn='" + isbn + '\'' +
-                ", quantity=" + quantity +
-                ", available=" + available +
-                ", reserved=" + reserved +
-                ", lost=" + lost +
-                '}';
+        return String.format("%-4s %-50s %-30s %-30s %-10s %-10s %-10s %-10s%n",
+                "ID", "Title", "Author", "ISBN", "Quantity", "Available", "Reserved", "Lost") +
+                String.format("%-4d %-50s %-30s %-30s %-10d %-10d %-10d %-10d%n",
+                        id, truncateText(title, 50), truncateText(author.getName(), 30), isbn,
+                        quantity, available, reserved, lost);
     }
+
+    // Helper method to truncate text if it exceeds a specified length
+    private static String truncateText(String text, int maxLength) {
+        if (text.length() <= maxLength) {
+            return text;
+        }
+        return text.substring(0, maxLength - 3) + "...";
+    }
+
+
+
 
     public int getId() {
         return id;
@@ -123,9 +128,6 @@ public class Book {
 
         return books;
     }
-
-
-
 
     public String addBook(){
 
@@ -204,9 +206,7 @@ public class Book {
 
         try (Connection connection = JDBC.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(
-                     "SELECT books.*, author.name AS author_name FROM books " +
-                             "INNER JOIN author ON books.author_id = author.id " +
-                             "WHERE title LIKE ?")) {
+                     "SELECT books.*, author.name AS author_name FROM books INNER JOIN author ON books.author_id = author.id WHERE title LIKE ?")) {
 
             // Set the search query for title using wildcard %
             String likeQuery = "%" + titleQuery + "%";
@@ -251,9 +251,7 @@ public class Book {
 
         try (Connection connection = JDBC.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(
-                     "SELECT books.*, author.name AS author_name FROM books " +
-                             "INNER JOIN author ON books.author_id = author.id " +
-                             "WHERE author.name LIKE ?")) {
+                     "SELECT books.*, author.name AS author_name FROM books INNER JOIN author ON books.author_id = author.id WHERE author.name LIKE ?")) {
 
             // Set the search query for author name using wildcard %
             String likeQuery = "%" + authorQuery + "%";

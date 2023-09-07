@@ -17,7 +17,7 @@ public class Main {
             System.out.println("8. View Reserved Books");
             System.out.println("9. Search For Book");
             System.out.println("10. Show Statistics");
-            System.out.println("11. Add User");
+            System.out.println("11. Manage Users");
             System.out.println("12. Exit");
             System.out.print("Enter your choice: ");
 
@@ -57,6 +57,9 @@ public class Main {
 
                     Book book = new Book(title, author, isbn, quantity, available, reserved, lost);
                     book.addBook();
+
+                    System.out.println("Press Enter to return to the main menu...");
+                    scanner.nextLine();
                     break;
                 case 3:
                     //
@@ -88,7 +91,8 @@ public class Main {
                     Book bookToEdit= new Book(editId,newTitle,author, newIsbn,newQuantity,newAvailable,newReserved,newLost);
                     bookToEdit.editBook();
 
-
+                    System.out.println("Press Enter to return to the main menu...");
+                    scanner.nextLine();
                     break;
                 case 4:
                     //
@@ -97,6 +101,10 @@ public class Main {
 
                     String deleteResult = Book.deleteBook(bookid);
                     System.out.println(deleteResult);
+
+
+                    System.out.println("Press Enter to return to the main menu...");
+                    scanner.nextLine();
                     break;
                 case 5:
                     //
@@ -129,6 +137,9 @@ public class Main {
 
                                 List<Book> booksByTitle = Book.searchBooksByTitle(titleQuery);
                                 displayBooksSearch(booksByTitle);
+
+                                System.out.println("Press Enter to return to the options menu...");
+                                scanner.nextLine();
                                 break;
                             case 2:
                                 System.out.print("Enter author name to search: ");
@@ -136,6 +147,9 @@ public class Main {
 
                                 List<Book> booksByAuthor = Book.searchBooksByAuthor(authorQuery);
                                 displayBooksSearch(booksByAuthor);
+
+                                System.out.println("Press Enter to return to the options menu...");
+                                scanner.nextLine();
                                 break;
                             case 3:
                                 optionsMenu = false; // Return to the main menu
@@ -149,8 +163,61 @@ public class Main {
                     //
                     break;
                 case 11:
-                    //
+                    // Nested switch case for user management
+                    boolean userManagementMenu = true;
+                    while (userManagementMenu) {
+                        System.out.println("User Management Menu:");
+                        System.out.println("1. View Users");
+                        System.out.println("2. Add New User");
+                        System.out.println("3. Delete User");
+                        System.out.println("4. Return to Main Menu");
+                        System.out.print("Enter your choice: ");
+
+                        int userManagementChoice = scanner.nextInt();
+                        scanner.nextLine(); // Consume the newline character
+
+                        switch (userManagementChoice) {
+                            case 1:
+                                // View Users
+                                List<LibraryUser> users = LibraryUser.showUsers();
+                                for (LibraryUser user : users) {
+                                    System.out.println("User ID: " + user.getId());
+                                    System.out.println("Name: " + user.getName());
+                                    System.out.println("Email: " + user.getEmail());
+                                    System.out.println("Phone: " + user.getPhone());
+                                    System.out.println("--------------------------");
+                                }
+                                break;
+                            case 2:
+                                // Add New User
+                                System.out.print("Enter the user's name: ");
+                                String userName = scanner.nextLine();
+                                System.out.print("Enter the user's email: ");
+                                String userEmail = scanner.nextLine();
+                                System.out.print("Enter the user's phone: ");
+                                String userPhone = scanner.nextLine();
+                                String addUserResult = LibraryUser.addUser(userName, userEmail, userPhone);
+                                System.out.println(addUserResult);
+                                break;
+                            case 3:
+                                // Delete User
+                                System.out.print("Enter the user ID to delete: ");
+                                int userIdToDelete = scanner.nextInt();
+                                scanner.nextLine(); // Consume the newline character
+                                String deleteUserResult = LibraryUser.deleteUser(userIdToDelete);
+                                System.out.println(deleteUserResult);
+                                break;
+                            case 4:
+                                // Return to Main Menu
+                                userManagementMenu = false;
+                                break;
+                            default:
+                                System.out.println("Invalid choice. Please enter a valid option.");
+                                break;
+                        }
+                    }
                     break;
+
                 case 12:
                     System.out.println("Goodbye!");
                     scanner.close();
@@ -170,7 +237,7 @@ public class Main {
 
     }
 
-    // Helper method to display a list of books
+    // Helper methods for display
     private static void displayBooksSearch(List<Book> books) {
         for (Book book : books) {
             System.out.println(book);
