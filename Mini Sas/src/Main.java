@@ -38,26 +38,26 @@ public class Main {
                     break;
 
                 case 2:
-                    System.out.println("dkhel Title :");
+                    System.out.println("Enter Title :");
                     String title = scanner.nextLine();
 
-                    System.out.println("dkhel author id :");
+                    System.out.println("Enter author id :");
                     int author_id = Integer.parseInt(scanner.nextLine());
                     Author author = new Author(author_id);
 
-                    System.out.println("dkhel isbn :");
+                    System.out.println("Enter isbn :");
                     String isbn = scanner.nextLine();
 
-                    System.out.println("dkhel quantity :");
+                    System.out.println("Enter quantity :");
                     int quantity = Integer.parseInt(scanner.nextLine());
 
-                    System.out.println("dkhel available :");
+                    System.out.println("Enter available quantity :");
                     int available = Integer.parseInt(scanner.nextLine());
 
-                    System.out.println("dkhel reserved :");
+                    System.out.println("Enter reserved quantity :");
                     int reserved = Integer.parseInt(scanner.nextLine());
 
-                    System.out.println("dkhel lost :");
+                    System.out.println("Enter lost quantity :");
                     int lost = Integer.parseInt(scanner.nextLine());
 
                     Book book = new Book(title, author, isbn, quantity, available, reserved, lost);
@@ -115,26 +115,27 @@ public class Main {
                     break;
 
                 case 5:
-                    //
+                    //Reserve Book
                     break;
 
                 case 6:
-                    //
+                    //Return Book
                     break;
 
                 case 7:
-                    //
+                    //View Available Books
                     break;
 
                 case 8:
-                    //
+                    //Views Reserved Books
                     break;
 
                 case 9:
+                    // Nested switch case for Search
                     boolean optionsMenu = true;
                     while (optionsMenu) {
                         System.out.println("------------------------------------------------");
-                        System.out.println("Options Menu:");
+                        System.out.println("Search Menu:");
                         System.out.println("1. Search by Title");
                         System.out.println("2. Search by Author Name");
                         System.out.println("3. Return to Main Menu");
@@ -175,7 +176,7 @@ public class Main {
                     break;
 
                 case 10:
-                    //
+                    //Statistiques
                     break;
 
                 case 11:
@@ -236,6 +237,7 @@ public class Main {
                     break;
 
                 case 12:
+                    // Nested switch case for author management
                     boolean authorSubMenu = true;
 
                     while (authorSubMenu) {
