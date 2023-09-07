@@ -6,7 +6,9 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
+            System.out.println("------------------------------------------------");
             System.out.println("Welcome To Library Management System");
+            System.out.println("------------------------------------------------");
             System.out.println("1. View All Books");
             System.out.println("2. Add Book");
             System.out.println("3. Update Book");
@@ -18,7 +20,9 @@ public class Main {
             System.out.println("9. Search For Book");
             System.out.println("10. Show Statistics");
             System.out.println("11. Manage Users");
-            System.out.println("12. Exit");
+            System.out.println("12. Manage Authors");
+            System.out.println("13. Exit");
+            System.out.println("------------------------------------------------");
             System.out.print("Enter your choice: ");
 
             int choice = scanner.nextInt();
@@ -32,6 +36,7 @@ public class Main {
                     System.out.println("Press Enter to return to the main menu...");
                     scanner.nextLine();
                     break;
+
                 case 2:
                     System.out.println("dkhel Title :");
                     String title = scanner.nextLine();
@@ -61,6 +66,7 @@ public class Main {
                     System.out.println("Press Enter to return to the main menu...");
                     scanner.nextLine();
                     break;
+
                 case 3:
                     //
                     System.out.println("Enter Book Id To Edit :");
@@ -94,6 +100,7 @@ public class Main {
                     System.out.println("Press Enter to return to the main menu...");
                     scanner.nextLine();
                     break;
+
                 case 4:
                     //
                     System.out.println("Enter Book Id To Delete :");
@@ -106,18 +113,23 @@ public class Main {
                     System.out.println("Press Enter to return to the main menu...");
                     scanner.nextLine();
                     break;
+
                 case 5:
                     //
                     break;
+
                 case 6:
                     //
                     break;
+
                 case 7:
                     //
                     break;
+
                 case 8:
                     //
                     break;
+
                 case 9:
                     boolean optionsMenu = true;
                     while (optionsMenu) {
@@ -159,9 +171,11 @@ public class Main {
                         }
                     }
                     break;
+
                 case 10:
                     //
                     break;
+
                 case 11:
                     // Nested switch case for user management
                     boolean userManagementMenu = true;
@@ -219,6 +233,76 @@ public class Main {
                     break;
 
                 case 12:
+                    boolean authorSubMenu = true;
+
+                    while (authorSubMenu) {
+                        System.out.println("Author Menu:");
+                        System.out.println("1. Show Authors");
+                        System.out.println("2. Add Author");
+                        System.out.println("3. Update Author");
+                        System.out.println("4. Delete Author");
+                        System.out.println("5. Return to Main Menu");
+                        System.out.print("Enter your choice: ");
+
+                        int authorChoice = scanner.nextInt();
+                        scanner.nextLine();
+                        switch (authorChoice) {
+                            case 1:
+                                // Show Authors
+                                List<Author> authors = Author.showAuthors();
+                                if (authors.isEmpty()) {
+                                    System.out.println("No authors found.");
+                                } else {
+                                    System.out.println("Authors:");
+                                    for (Author author2 : authors) {
+                                        System.out.println("ID: " + author2.getId() + ", Name: " + author2.getName());
+                                    }
+                                }
+                                break;
+                            case 2:
+                                // Add Author
+                                System.out.print("Enter the author's name: ");
+                                String authorNameToAdd = scanner.nextLine(); // Read author name from user input
+
+                                String addAuthorResult = Author.addAuthor(authorNameToAdd); // Call the addAuthor method
+
+                                System.out.println(addAuthorResult); // Print the result message
+                                break;
+
+                            case 3:
+                                // Update Author
+                                System.out.print("Enter the author's ID to edit: ");
+                                int authorIdToEdit = scanner.nextInt();
+                                scanner.nextLine(); // Consume the newline character
+
+                                System.out.print("Enter the new name for the author: ");
+                                String newAuthorName = scanner.nextLine(); // Read the new author name from user input
+
+                                String editAuthorResult = Author.editAuthor(authorIdToEdit, newAuthorName); // Call the editAuthor method
+
+                                System.out.println(editAuthorResult); // Print the result message
+                                break;
+
+                            case 4:
+                                // Delete Author
+                                System.out.print("Enter the author's ID to delete: ");
+                                int authorIdToDelete = scanner.nextInt();
+
+                                String deleteAuthorResult = Author.deleteAuthor(authorIdToDelete); // Call the deleteAuthor method
+
+                                System.out.println(deleteAuthorResult); // Print the result message
+                                break;
+                            case 5:
+                                // Return to Main Menu
+                                authorSubMenu = false;
+                                break;
+                            default:
+                                System.out.println("Invalid choice. Please enter a valid option.");
+                        }
+                    }
+                    break;
+
+                case 13:
                     System.out.println("Goodbye!");
                     scanner.close();
                     System.exit(0);
