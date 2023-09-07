@@ -153,6 +153,7 @@ public class Main {
 
                                 System.out.println("Press Enter to return to the options menu...");
                                 scanner.nextLine();
+
                                 break;
                             case 2:
                                 System.out.print("Enter author name to search: ");
@@ -262,11 +263,8 @@ public class Main {
                                     }
                                 }
 
-                                try {
-                                    Thread.sleep(2000); // Sleep for 2 seconds (2000 milliseconds)
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
+                                System.out.println("Press Enter to return to the Author menu...");
+                                scanner.nextLine();
                                 break;
                             case 2:
                                 // Add Author
@@ -277,11 +275,8 @@ public class Main {
 
                                 System.out.println(addAuthorResult); // Print the result message
 
-                                try {
-                                    Thread.sleep(2000); // Sleep for 2 seconds (2000 milliseconds)
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
+                                System.out.println("Press Enter to return to the options menu...");
+                                scanner.nextLine();
                                 break;
 
                             case 3:
@@ -297,11 +292,8 @@ public class Main {
 
                                 System.out.println(editAuthorResult); // Print the result message
 
-                                try {
-                                    Thread.sleep(2000); // Sleep for 2 seconds (2000 milliseconds)
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
+                                System.out.println("Press Enter to return to the Author menu...");
+                                scanner.nextLine();
                                 break;
 
                             case 4:
@@ -313,11 +305,8 @@ public class Main {
 
                                 System.out.println(deleteAuthorResult); // Print the result message
 
-                                try {
-                                    Thread.sleep(2000); // Sleep for 2 seconds (2000 milliseconds)
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
+                                System.out.println("Press Enter to return to the Author menu...");
+                                scanner.nextLine();
                                 break;
                             case 5:
                                 // Return to Main Menu
