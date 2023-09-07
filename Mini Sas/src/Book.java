@@ -39,7 +39,7 @@ public class Book {
         return "Book{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", author=" + author +
+                ", author=" + author.getName() +
                 ", isbn='" + isbn + '\'' +
                 ", quantity=" + quantity +
                 ", available=" + available +
@@ -92,7 +92,8 @@ public class Book {
              Statement statement = connection.createStatement()) {
 
             // SQL query to select all books from the 'books' table
-            String sqlQuery = "SELECT * FROM books";
+            String sqlQuery = "SELECT books.*, author.name AS author_name FROM books " +
+                    "INNER JOIN author ON books.author_id = author.id";
 
             // Execute the query and get the result set
             ResultSet resultSet = statement.executeQuery(sqlQuery);
@@ -102,6 +103,7 @@ public class Book {
                 int id = resultSet.getInt("id");
                 String title = resultSet.getString("title");
                 int authorId = resultSet.getInt("author_id");
+                String authorName = resultSet.getString("author_name");
                 String isbn = resultSet.getString("isbn");
                 int quantity = resultSet.getInt("quantity");
                 int available = resultSet.getInt("available");
@@ -109,10 +111,10 @@ public class Book {
                 int lost = resultSet.getInt("lost");
 
                 // Create an Author object
-                Author author = new Author(authorId);
+                Author author = new Author(authorId,authorName);
 
                 // Create a Book object and add it to the list
-                Book book = new Book(id, title, author, isbn, quantity, available, reserved, lost);
+                Book book = new Book(id, title, author,isbn, quantity, available, reserved, lost);
                 books.add(book);
             }
         } catch (SQLException e) {
