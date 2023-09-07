@@ -133,6 +133,7 @@ public class Main {
                 case 9:
                     boolean optionsMenu = true;
                     while (optionsMenu) {
+                        System.out.println("------------------------------------------------");
                         System.out.println("Options Menu:");
                         System.out.println("1. Search by Title");
                         System.out.println("2. Search by Author Name");
@@ -180,6 +181,7 @@ public class Main {
                     // Nested switch case for user management
                     boolean userManagementMenu = true;
                     while (userManagementMenu) {
+                        System.out.println("------------------------------------------------");
                         System.out.println("User Management Menu:");
                         System.out.println("1. View Users");
                         System.out.println("2. Add New User");
@@ -236,6 +238,7 @@ public class Main {
                     boolean authorSubMenu = true;
 
                     while (authorSubMenu) {
+                        System.out.println("------------------------------------------------");
                         System.out.println("Author Menu:");
                         System.out.println("1. Show Authors");
                         System.out.println("2. Add Author");
@@ -258,6 +261,12 @@ public class Main {
                                         System.out.println("ID: " + author2.getId() + ", Name: " + author2.getName());
                                     }
                                 }
+
+                                try {
+                                    Thread.sleep(2000); // Sleep for 2 seconds (2000 milliseconds)
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                                 break;
                             case 2:
                                 // Add Author
@@ -267,6 +276,12 @@ public class Main {
                                 String addAuthorResult = Author.addAuthor(authorNameToAdd); // Call the addAuthor method
 
                                 System.out.println(addAuthorResult); // Print the result message
+
+                                try {
+                                    Thread.sleep(2000); // Sleep for 2 seconds (2000 milliseconds)
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                                 break;
 
                             case 3:
@@ -281,6 +296,12 @@ public class Main {
                                 String editAuthorResult = Author.editAuthor(authorIdToEdit, newAuthorName); // Call the editAuthor method
 
                                 System.out.println(editAuthorResult); // Print the result message
+
+                                try {
+                                    Thread.sleep(2000); // Sleep for 2 seconds (2000 milliseconds)
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                                 break;
 
                             case 4:
@@ -291,6 +312,12 @@ public class Main {
                                 String deleteAuthorResult = Author.deleteAuthor(authorIdToDelete); // Call the deleteAuthor method
 
                                 System.out.println(deleteAuthorResult); // Print the result message
+
+                                try {
+                                    Thread.sleep(2000); // Sleep for 2 seconds (2000 milliseconds)
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                                 break;
                             case 5:
                                 // Return to Main Menu
