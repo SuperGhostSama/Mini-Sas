@@ -198,4 +198,99 @@ public class Book {
             return "Error deleting book: " + e.getMessage();
         }
     }
+
+    public static List<Book> searchBooksByTitle(String titleQuery) {
+        List<Book> matchingBooks = new ArrayList<>();
+
+        try (Connection connection = JDBC.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                     "SELECT books.*, author.name AS author_name FROM books " +
+                             "INNER JOIN author ON books.author_id = author.id " +
+                             "WHERE title LIKE ?")) {
+
+            // Set the search query for title using wildcard %
+            String likeQuery = "%" + titleQuery + "%";
+            preparedStatement.setString(1, likeQuery);
+
+            // Execute the query and get the result set
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (!resultSet.isBeforeFirst()) {
+                System.out.println("No books by the specified title found.");
+                return matchingBooks;
+            }
+
+            // Process the result set and create Book objects
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String title = resultSet.getString("title");
+                int authorId = resultSet.getInt("author_id");
+                String authorName = resultSet.getString("author_name");
+                String isbn = resultSet.getString("isbn");
+                int quantity = resultSet.getInt("quantity");
+                int available = resultSet.getInt("available");
+                int reserved = resultSet.getInt("reserved");
+                int lost = resultSet.getInt("lost");
+
+                // Create an Author object
+                Author author = new Author(authorId, authorName);
+
+                // Create a Book object and add it to the list
+                Book book = new Book(id, title, author, isbn, quantity, available, reserved, lost);
+                matchingBooks.add(book);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return matchingBooks;
+    }
+
+    public static List<Book> searchBooksByAuthor(String authorQuery) {
+        List<Book> matchingBooks = new ArrayList<>();
+
+        try (Connection connection = JDBC.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                     "SELECT books.*, author.name AS author_name FROM books " +
+                             "INNER JOIN author ON books.author_id = author.id " +
+                             "WHERE author.name LIKE ?")) {
+
+            // Set the search query for author name using wildcard %
+            String likeQuery = "%" + authorQuery + "%";
+            preparedStatement.setString(1, likeQuery);
+
+            // Execute the query and get the result set
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (!resultSet.isBeforeFirst()) {
+                System.out.println("No books by the specified author found.");
+                return matchingBooks;
+            }
+
+            // Process the result set and create Book objects
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String title = resultSet.getString("title");
+                int authorId = resultSet.getInt("author_id");
+                String authorName = resultSet.getString("author_name");
+                String isbn = resultSet.getString("isbn");
+                int quantity = resultSet.getInt("quantity");
+                int available = resultSet.getInt("available");
+                int reserved = resultSet.getInt("reserved");
+                int lost = resultSet.getInt("lost");
+
+                // Create an Author object
+                Author author = new Author(authorId, authorName);
+
+                // Create a Book object and add it to the list
+                Book book = new Book(id, title, author, isbn, quantity, available, reserved, lost);
+                matchingBooks.add(book);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return matchingBooks;
+    }
+
 }

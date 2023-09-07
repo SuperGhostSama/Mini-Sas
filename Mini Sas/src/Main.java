@@ -27,10 +27,10 @@ public class Main {
             switch (choice) {
                 case 1:
 
-                    for (Book book :Book.showBooks() ) {
-                        System.out.println(book.toString());
-                    }
+                    displayBooks(Book.showBooks());
 
+                    System.out.println("Press Enter to return to the main menu...");
+                    scanner.nextLine();
                     break;
                 case 2:
                     System.out.println("dkhel Title :");
@@ -111,7 +111,39 @@ public class Main {
                     //
                     break;
                 case 9:
-                    //
+                    boolean optionsMenu = true;
+                    while (optionsMenu) {
+                        System.out.println("Options Menu:");
+                        System.out.println("1. Search by Title");
+                        System.out.println("2. Search by Author Name");
+                        System.out.println("3. Return to Main Menu");
+                        System.out.print("Enter your choice: ");
+
+                        int optionChoice = scanner.nextInt();
+                        scanner.nextLine(); // Consume the newline
+
+                        switch (optionChoice) {
+                            case 1:
+                                System.out.print("Enter title to search: ");
+                                String titleQuery = scanner.nextLine();
+
+                                List<Book> booksByTitle = Book.searchBooksByTitle(titleQuery);
+                                displayBooksSearch(booksByTitle);
+                                break;
+                            case 2:
+                                System.out.print("Enter author name to search: ");
+                                String authorQuery = scanner.nextLine();
+
+                                List<Book> booksByAuthor = Book.searchBooksByAuthor(authorQuery);
+                                displayBooksSearch(booksByAuthor);
+                                break;
+                            case 3:
+                                optionsMenu = false; // Return to the main menu
+                                break;
+                            default:
+                                System.out.println("Invalid option. Please try again.");
+                        }
+                    }
                     break;
                 case 10:
                     //
@@ -138,5 +170,16 @@ public class Main {
 
     }
 
+    // Helper method to display a list of books
+    private static void displayBooksSearch(List<Book> books) {
+        for (Book book : books) {
+            System.out.println(book);
+        }
+    }
 
+    private static void displayBooks(List<Book> books) {
+        for (Book book :Book.showBooks() ) {
+            System.out.println(book.toString());
+        }
+    }
 }
