@@ -129,13 +129,21 @@ public class Book {
         return books;
     }
 
-    public String addBook(){
+    public String addBook() {
+        // Check if the author exists
+        int authorId = getAuthorIdByName(this.author.getName());
+
+        if (authorId == -1) {
+            String errorMessage = "Author with name '" + this.author.getName() + "' does not exist. Create the author before adding a book.";
+            System.out.println(errorMessage); // Print the error message to the console
+            return errorMessage; // Return the error message as the result
+        }
 
         String insertSql = "INSERT INTO books (title, author_id, isbn, quantity, available, reserved, lost) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = JDBC.getConnection();
              PreparedStatement statement = connection.prepareStatement(insertSql)) {
             statement.setString(1, this.title);
-            statement.setObject(2, this.author.getId());
+            statement.setInt(2, authorId); // Use the retrieved authorId
             statement.setString(3, this.isbn);
             statement.setInt(4, this.quantity);
             statement.setInt(5, this.available);
@@ -144,9 +152,13 @@ public class Book {
             statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            }
-        return "Added successfully";
+        }
+        String successMessage = "Added successfully";
+        System.out.println(successMessage);
+        return successMessage;
     }
+
+
 
     public String editBook() {
         String updateSql = "UPDATE books SET title = ?, author_id = ?,isbn = ?, quantity = ?, available = ?, reserved = ?, lost = ? WHERE id = ?";
@@ -168,13 +180,20 @@ public class Book {
             int rowsUpdated = statement.executeUpdate();
 
             if (rowsUpdated > 0) {
-                return "Edited successfully";
+                String successMessage = "Edited successfully";
+                System.out.println(successMessage);
+                return successMessage;
             } else {
-                return "Book with ID " + id + " not found.";
+                String errorMessage = "Book with ID " + id + " not found.";
+                System.out.println(errorMessage);
+                return errorMessage;
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return "Error editing book: " + e.getMessage();
+
+            String errorMessage = "Error editing book: " + e.getMessage();
+            System.out.println(errorMessage);
+            return errorMessage;
         }
     }
 
@@ -191,13 +210,20 @@ public class Book {
             int rowsDeleted = statement.executeUpdate();
 
             if (rowsDeleted > 0) {
-                return "Deleted successfully";
+                String successMessage = "Deleted successfully";
+                System.out.println(successMessage);
+                return successMessage;
             } else {
-                return "Book with ID " + id + " not found.";
+                String errorMessage = "Book with ID " + id + " not found.";
+                System.out.println(errorMessage);
+                return errorMessage;
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return "Error deleting book: " + e.getMessage();
+
+            String errorMessage = "Error deleting book: " + e.getMessage();
+            System.out.println(errorMessage);
+            return errorMessage;
         }
     }
 
@@ -290,5 +316,31 @@ public class Book {
 
         return matchingBooks;
     }
+
+    // Helper method to get the author ID by name, or add the author if not present
+    private int getAuthorIdByName(String authorName) {
+        int authorId = -1;
+        try (Connection connection = JDBC.getConnection()) {
+            // Check if the author already exists by name
+            String selectSql = "SELECT id FROM author WHERE name = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(selectSql)) {
+                preparedStatement.setString(1, authorName);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    authorId = resultSet.getInt("id");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return authorId;
+    }
+
+
+
+
+
+
+
 
 }

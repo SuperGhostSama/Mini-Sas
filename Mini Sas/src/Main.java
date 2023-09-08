@@ -41,9 +41,9 @@ public class Main {
                     System.out.println("Enter Title :");
                     String title = scanner.nextLine();
 
-                    System.out.println("Enter author id :");
-                    int author_id = Integer.parseInt(scanner.nextLine());
-                    Author author = new Author(author_id);
+                    System.out.println("Enter author Name :");
+                    String author_name = scanner.nextLine();
+                    Author author = new Author(author_name);
 
                     System.out.println("Enter isbn :");
                     String isbn = scanner.nextLine();
@@ -63,8 +63,7 @@ public class Main {
                     Book book = new Book(title, author, isbn, quantity, available, reserved, lost);
                     book.addBook();
 
-                    System.out.println("Press Enter to return to the main menu...");
-                    scanner.nextLine();
+
                     break;
 
                 case 3:
@@ -97,8 +96,7 @@ public class Main {
                     Book bookToEdit= new Book(editId,newTitle,author, newIsbn,newQuantity,newAvailable,newReserved,newLost);
                     bookToEdit.editBook();
 
-                    System.out.println("Press Enter to return to the main menu...");
-                    scanner.nextLine();
+
                     break;
 
                 case 4:
@@ -110,8 +108,7 @@ public class Main {
                     System.out.println(deleteResult);
 
 
-                    System.out.println("Press Enter to return to the main menu...");
-                    scanner.nextLine();
+
                     break;
 
                 case 5:
