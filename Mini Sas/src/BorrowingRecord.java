@@ -1,7 +1,6 @@
 import java.util.Date;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Calendar;
 import Connection.JDBC;
 
 public class BorrowingRecord {
@@ -57,6 +56,26 @@ public class BorrowingRecord {
 
     //METHODS
     public static String borrowBook(String isbn, String libraryUserName, Date borrowDate, Date returnDate) {
+
+        // Check if borrowDate is in the past
+        Date today = new Date();
+        if (borrowDate.before(today)) {
+            return "Borrow date cannot be in the past";
+        }
+
+        // Check if returnDate is the same as or before the borrowDate
+        if (returnDate.before(borrowDate) || returnDate.equals(borrowDate)) {
+            return "Return date cannot be the same as or before the borrow date";
+        }
+
+        // Check if returnDate is more than 1 month from borrowDate
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(borrowDate);
+        calendar.add(Calendar.MONTH, 1);
+        if (returnDate.after(calendar.getTime())) {
+            return "Return date cannot be more than 1 month from the borrow date";
+        }
+
         try (Connection connection = JDBC.getConnection()) {
             // Check if the book with the given ISBN exists
             String selectBookSql = "SELECT id, available, reserved FROM books WHERE isbn = ?";
