@@ -34,6 +34,11 @@ public class Author {
             return "Author name cannot be empty. Please enter a valid name.";
         }
 
+        // Check if the author name already exists
+        if (isAuthorNameExists(name)) {
+            return "Author with the same name already exists.";
+        }
+
         try (Connection connection = JDBC.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(
                      "INSERT INTO author (name) VALUES (?)")) {
@@ -125,6 +130,25 @@ public class Author {
         return authors;
     }
 
+    private static boolean isAuthorNameExists(String name) {
+        try (Connection connection = JDBC.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                     "SELECT COUNT(*) FROM author WHERE name = ?")) {
 
+            preparedStatement.setString(1, name);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int count = resultSet.getInt(1);
+                return count > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // Default to false if there was an error
+        return false;
+    }
 
 }
