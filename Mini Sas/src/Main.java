@@ -1,8 +1,11 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -112,8 +115,27 @@ public class Main {
                     break;
 
                 case 5:
-                    //Reserve Book
+                    // Borrow Book
+                    System.out.print("Enter the ISBN of the book: ");
+                    String isbnToBorrow = scanner.nextLine();
+
+                    System.out.print("Enter the name of the library user: ");
+                    String libraryUserName = scanner.nextLine();
+
+                    System.out.print("Enter the borrow date (yyyy-MM-dd HH:mm:ss): ");
+                    String borrowDateStr = scanner.nextLine();
+                    Date borrowDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(borrowDateStr);
+
+                    System.out.print("Enter the return date (yyyy-MM-dd HH:mm:ss): ");
+                    String returnDateStr = scanner.nextLine();
+                    Date returnDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(returnDateStr);
+
+                    String borrowResult = BorrowingRecord.borrowBook(isbnToBorrow, libraryUserName, borrowDate, returnDate);
+                    System.out.println(borrowResult);
                     break;
+
+
+
 
                 case 6:
                     //Return Book
