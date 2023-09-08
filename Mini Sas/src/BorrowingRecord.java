@@ -92,17 +92,14 @@ public class BorrowingRecord {
                                     updateBookStatement.executeUpdate();
                                 }
                                 String successMessage = "Book with ISBN '" + isbn + "' borrowed successfully";
-                                System.out.println(successMessage);
                                 return successMessage;
                             }
                         } else {
                             String errorMessage = "Book with ISBN '" + isbn + "' is not available for borrowing";
-                            System.out.println(errorMessage);
                             return errorMessage;
                         }
                     } else {
                         String errorMessage = "Library user with name '" + libraryUserName + "' not found";
-                        System.out.println(errorMessage);
                         return errorMessage;
                     }
                 }
@@ -110,20 +107,61 @@ public class BorrowingRecord {
         } catch (SQLException e) {
             e.printStackTrace();
             String errorMessage = "Error: " + e.getMessage();
-            System.out.println(errorMessage);
             return errorMessage;
         }
 
         String errorMessage = "Book with ISBN '" + isbn + "' not found";
-        System.out.println(errorMessage);
         return errorMessage;
     }
 
 
-    public String returnBook() {//ISBN
+    public static String returnBook(int recordId, String isbn) {
+        try (Connection connection = JDBC.getConnection()) {
+            // Find the borrowing record with the given ID and ISBN
+            String selectRecordSql = "SELECT br.book_id, b.isbn, b.available, b.reserved FROM borrowingrecord br " +
+                    "INNER JOIN books b ON br.book_id = b.id " +
+                    "WHERE br.id = ? AND b.isbn = ?";
+            try (PreparedStatement selectRecordStatement = connection.prepareStatement(selectRecordSql)) {
+                selectRecordStatement.setInt(1, recordId);
+                selectRecordStatement.setString(2, isbn);
+                ResultSet recordResultSet = selectRecordStatement.executeQuery();
 
-        return "Returned successfully";
+                if (recordResultSet.next()) {
+                    int bookId = recordResultSet.getInt("book_id");
+                    int available = recordResultSet.getInt("available");
+                    int reserved = recordResultSet.getInt("reserved");
+
+                    // Update the book availability (+1) and reserved (-1)
+                    String updateBookSql = "UPDATE books SET available = ?, reserved = ? WHERE id = ?";
+                    try (PreparedStatement updateBookStatement = connection.prepareStatement(updateBookSql)) {
+                        updateBookStatement.setInt(1, available + 1);
+                        updateBookStatement.setInt(2, reserved - 1);
+                        updateBookStatement.setInt(3, bookId);
+                        updateBookStatement.executeUpdate();
+                    }
+
+                    // Delete the borrowing record
+                    String deleteRecordSql = "DELETE FROM borrowingrecord WHERE id = ?";
+                    try (PreparedStatement deleteRecordStatement = connection.prepareStatement(deleteRecordSql)) {
+                        deleteRecordStatement.setInt(1, recordId);
+                        deleteRecordStatement.executeUpdate();
+
+                        String successMessage = "Book with ISBN '" + isbn + "' returned successfully";
+                        return successMessage;
+                    }
+                } else {
+                    String errorMessage = "Borrowing record with ID '" + recordId + "' and ISBN '" + isbn + "' is not found or the book is already returned.";
+                    return errorMessage;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            String errorMessage = "Error: " + e.getMessage();
+            return errorMessage;
+        }
+
     }
+
 
 
     public static int getLibraryUserIdByName(Connection connection, String libraryUserName) {

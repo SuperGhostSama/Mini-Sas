@@ -138,8 +138,19 @@ public class Main {
 
 
                 case 6:
-                    //Return Book
+                    // Return Book
+                    System.out.print("Enter the ID of the borrowing record: ");
+                    int recordId = scanner.nextInt();
+                    scanner.nextLine();
+
+                    System.out.print("Enter the ISBN of the book: ");
+                    String returnIsbn = scanner.nextLine();
+
+                    String returnResult = BorrowingRecord.returnBook(recordId, returnIsbn);
+
+                    System.out.println(returnResult);
                     break;
+
 
                 case 7:
                     //View Available Books
