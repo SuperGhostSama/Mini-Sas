@@ -89,6 +89,97 @@ public class Book {
         this.author = author;
     }
 
+    public static int getTotalBooks() {
+        int totalBooks = 0;
+        try (Connection connection = JDBC.getConnection();
+             Statement statement = connection.createStatement()) {
+
+            String sqlQuery = "SELECT COUNT(*) AS total_books FROM books";
+            ResultSet resultSet = statement.executeQuery(sqlQuery);
+
+            if (resultSet.next()) {
+                totalBooks = resultSet.getInt("total_books");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return totalBooks;
+    }
+
+    public static int getAvailableBooks() {
+        int availableBooks = 0;
+        try (Connection connection = JDBC.getConnection();
+             Statement statement = connection.createStatement()) {
+
+            String sqlQuery = "SELECT SUM(available) AS available_books FROM books";
+            ResultSet resultSet = statement.executeQuery(sqlQuery);
+
+            if (resultSet.next()) {
+                availableBooks = resultSet.getInt("available_books");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return availableBooks;
+    }
+
+    public static int getReservedBooks() {
+        int reservedBooks = 0;
+        try (Connection connection = JDBC.getConnection();
+             Statement statement = connection.createStatement()) {
+
+            String sqlQuery = "SELECT SUM(reserved) AS reserved_books FROM books";
+            ResultSet resultSet = statement.executeQuery(sqlQuery);
+
+            if (resultSet.next()) {
+                reservedBooks = resultSet.getInt("reserved_books");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return reservedBooks;
+    }
+
+    public static int getLostBooks() {
+        int lostBooks = 0;
+        try (Connection connection = JDBC.getConnection();
+             Statement statement = connection.createStatement()) {
+
+            String sqlQuery = "SELECT SUM(lost) AS lost_books FROM books";
+            ResultSet resultSet = statement.executeQuery(sqlQuery);
+
+            if (resultSet.next()) {
+                lostBooks = resultSet.getInt("lost_books");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lostBooks;
+    }
+
+    public static int getTotalUsers() {
+        int totalUsers = 0;
+        try (Connection connection = JDBC.getConnection();
+             Statement statement = connection.createStatement()) {
+
+            String sqlQuery = "SELECT COUNT(*) AS total_users FROM libraryuser";
+            ResultSet resultSet = statement.executeQuery(sqlQuery);
+
+            if (resultSet.next()) {
+                totalUsers = resultSet.getInt("total_users");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return totalUsers;
+    }
+
+
     //METHODS
     public static List<Book> showBooks() {
         List<Book> books = new ArrayList<>();

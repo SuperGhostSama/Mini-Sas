@@ -225,8 +225,21 @@ public class Main {
                     break;
 
                 case 10:
-                    //Statistiques
+                    // Statistics
+                    int totalBooksStats = Book.getTotalBooks();
+                    int availableBooksStats = Book.getAvailableBooks();
+                    int reservedBooksStats = Book.getReservedBooks();
+                    int lostBooksStats = Book.getLostBooks();
+                    int totalUsersStats = Book.getTotalUsers();
+
+                    System.out.println("Library Statistics:");
+                    System.out.println("Total Books: " + totalBooksStats);
+                    System.out.println("Available Books: " + availableBooksStats);
+                    System.out.println("Reserved Books: " + reservedBooksStats);
+                    System.out.println("Lost Books: " + lostBooksStats);
+                    System.out.println("Total Users: " + totalUsersStats);
                     break;
+
 
                 case 11:
                     // Nested switch case for user management
