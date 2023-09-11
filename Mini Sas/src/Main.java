@@ -153,12 +153,31 @@ public class Main {
 
 
                 case 7:
-                    //View Available Books
+                    // View Available Books
+                    List<Book> availableBooks = Book.showAvailableBooks();
+                    if (availableBooks.isEmpty()) {
+                        System.out.println("No available books found.");
+                    } else {
+                        System.out.println("Available Books:");
+                        for (Book availableBook : availableBooks) {
+                            System.out.println(availableBook.toString());
+                        }
+                    }
                     break;
 
                 case 8:
-                    //Views Reserved Books
+                    // View Reserved Books
+                    List<Book> reservedBooks = Book.showReservedBooks();
+                    if (reservedBooks.isEmpty()) {
+                        System.out.println("No reserved books found.");
+                    } else {
+                        System.out.println("Reserved Books:");
+                        for (Book reservedBook : reservedBooks) {
+                            System.out.println(reservedBook.toString());
+                        }
+                    }
                     break;
+
 
                 case 9:
                     // Nested switch case for Search

@@ -317,6 +317,83 @@ public class Book {
         return matchingBooks;
     }
 
+    public static List<Book> showReservedBooks() {
+        List<Book> reservedBooks = new ArrayList<>();
+
+        try (Connection connection = JDBC.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                     "SELECT books.*, author.name AS author_name FROM books " +
+                             "INNER JOIN author ON books.author_id = author.id " +
+                             "WHERE reserved > 0")) {
+
+            // Execute the query and get the result set
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Process the result set and create Book objects for reserved books
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String title = resultSet.getString("title");
+                int authorId = resultSet.getInt("author_id");
+                String authorName = resultSet.getString("author_name");
+                String isbn = resultSet.getString("isbn");
+                int quantity = resultSet.getInt("quantity");
+                int available = resultSet.getInt("available");
+                int reserved = resultSet.getInt("reserved");
+                int lost = resultSet.getInt("lost");
+
+                // Create an Author object
+                Author author = new Author(authorId, authorName);
+
+                // Create a Book object and add it to the list
+                Book book = new Book(id, title, author, isbn, quantity, available, reserved, lost);
+                reservedBooks.add(book);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return reservedBooks;
+    }
+
+    public static List<Book> showAvailableBooks() {
+        List<Book> availableBooks = new ArrayList<>();
+
+        try (Connection connection = JDBC.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                     "SELECT books.*, author.name AS author_name FROM books " +
+                             "INNER JOIN author ON books.author_id = author.id " +
+                             "WHERE available > 0")) {
+
+            // Execute the query and get the result set
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Process the result set and create Book objects for available books
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String title = resultSet.getString("title");
+                int authorId = resultSet.getInt("author_id");
+                String authorName = resultSet.getString("author_name");
+                String isbn = resultSet.getString("isbn");
+                int quantity = resultSet.getInt("quantity");
+                int available = resultSet.getInt("available");
+                int reserved = resultSet.getInt("reserved");
+                int lost = resultSet.getInt("lost");
+
+                // Create an Author object
+                Author author = new Author(authorId, authorName);
+
+                // Create a Book object and add it to the list
+                Book book = new Book(id, title, author, isbn, quantity, available, reserved, lost);
+                availableBooks.add(book);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return availableBooks;
+    }
+
+
     // Helper method to get the author ID by name, or add the author if not present
     private int getAuthorIdByName(String authorName) {
         int authorId = -1;
