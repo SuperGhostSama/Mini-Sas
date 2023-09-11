@@ -58,41 +58,7 @@ public class Book {
 
 
 
-    public int getId() {
-        return id;
-    }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public Author getAuthor() {
-        return author;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public int getAvailable() {
-        return available;
-    }
-
-    public int getReserved() {
-        return reserved;
-    }
-
-    public int getLost() {
-        return lost;
-    }
-
-    public void setAuthor(Author author) {
-        this.author = author;
-    }
 
     public static int getTotalBooks() {
         int totalBooks = 0;
@@ -478,7 +444,6 @@ public class Book {
     }
 
     public String updateTitle(String isbn, String newTitle) {
-       
 
         String updateSql = "UPDATE books SET title = ? WHERE isbn = ?";
         String resultMessage = "";
@@ -590,6 +555,7 @@ public class Book {
         return resultMessage;
     }
 
+    //checkIsbnExistence will be used to check the isbn enterred at the start
     public boolean checkIsbnExistence(String isbn) {
         String selectSql = "SELECT COUNT(*) FROM books WHERE isbn = ?";
 

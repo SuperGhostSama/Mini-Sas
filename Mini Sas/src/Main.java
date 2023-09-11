@@ -33,7 +33,7 @@ public class Main {
 
             switch (choice) {
                 case 1:
-
+                    // Show Books
                     displayBooks(Book.showBooks());
 
                     System.out.println("Press Enter to return to the main menu...");
@@ -71,71 +71,70 @@ public class Main {
                     System.out.println("Enter Book ISBN To Edit:");
                     String isbnToEdit = scanner.nextLine();
 
-                    // Create an instance of the Book class
                     Book editBook = new Book();
 
-                    // Add a nested switch case for more editing options
-                    while (true) {
 
-                        System.out.println("Select what you want to edit:");
-                        System.out.println("1. Title");
-                        System.out.println("2. ISBN");
-                        System.out.println("3. Quantity");
-                        System.out.println("4. Author Name");
-                        System.out.println("5. Done Editing");
+                    if(editBook.checkIsbnExistence(isbnToEdit) == true){
+                        // More editing options
+                        while (true) {
 
-                        int editChoice = Integer.parseInt(scanner.nextLine());
+                            System.out.println("Select what you want to edit:");
+                            System.out.println("1. Title");
+                            System.out.println("2. ISBN");
+                            System.out.println("3. Quantity");
+                            System.out.println("4. Author Name");
+                            System.out.println("5. Done Editing");
 
-                        switch (editChoice) {
-                            case 1:
-                                // Edit Title
-                                System.out.println("Enter New Title:");
-                                String newTitle = scanner.nextLine();
+                            int editChoice = Integer.parseInt(scanner.nextLine());
 
-                                String titleUpdateResult = editBook.updateTitle(isbnToEdit, newTitle);
-                                System.out.println(titleUpdateResult);
+                            switch (editChoice) {
+                                case 1:
+                                    // Edit Title
+                                    System.out.println("Enter New Title:");
+                                    String newTitle = scanner.nextLine();
+
+                                    String titleUpdateResult = editBook.updateTitle(isbnToEdit, newTitle);
+                                    System.out.println(titleUpdateResult);
+                                    break;
+                                case 2:
+                                    // Edit ISBN
+                                    System.out.println("Enter New ISBN:");
+                                    String newIsbn = scanner.nextLine();
+
+                                    String isbnUpdateResult = editBook.updateIsbn(isbnToEdit, newIsbn);
+                                    System.out.println(isbnUpdateResult);
+                                    break;
+                                case 3:
+                                    // Edit Quantity
+                                    System.out.println("Enter New Quantity:");
+                                    int newQuantity = Integer.parseInt(scanner.nextLine());
+
+                                    String quantityUpdateResult = editBook.updateQuantity(isbnToEdit, newQuantity);
+                                    System.out.println(quantityUpdateResult);
+                                    break;
+                                case 4:
+                                    // Edit Author Name
+                                    System.out.println("Enter New Author Name:");
+                                    String newAuthorName = scanner.nextLine();
+
+                                    String authorNameUpdateResult = editBook.updateAuthorName(isbnToEdit, newAuthorName);
+                                    System.out.println(authorNameUpdateResult);
+                                    break;
+                                case 5:
+                                    System.out.println("------------------------------------------------");
+                                    break;
+                                default:
+                                    System.out.println("Invalid choice.");
+                                    break;
+                            }
+
+                            if (editChoice == 5) {
                                 break;
-                            case 2:
-                                // Edit ISBN
-                                System.out.println("Enter New ISBN:");
-                                String newIsbn = scanner.nextLine();
-
-                                String isbnUpdateResult = editBook.updateIsbn(isbnToEdit, newIsbn);
-                                System.out.println(isbnUpdateResult);
-                                break;
-                            case 3:
-                                // Edit Quantity
-                                System.out.println("Enter New Quantity:");
-                                int newQuantity = Integer.parseInt(scanner.nextLine());
-
-                                String quantityUpdateResult = editBook.updateQuantity(isbnToEdit, newQuantity);
-                                System.out.println(quantityUpdateResult);
-                                break;
-                            case 4:
-                                // Edit Author Name
-                                System.out.println("Enter New Author Name:");
-                                String newAuthorName = scanner.nextLine();
-
-                                String authorNameUpdateResult = editBook.updateAuthorName(isbnToEdit, newAuthorName);
-                                System.out.println(authorNameUpdateResult);
-                                break;
-                            case 5:
-                                // Done Editing
-                                System.out.println("Done Editing");
-                                break;
-                            default:
-                                System.out.println("Invalid choice.");
-                                break;
-                        }
-
-                        if (editChoice == 5) {
-                            break;
+                            }
                         }
                     }
 
                     break;
-
-
 
 
 

@@ -18,41 +18,6 @@ public class BorrowingRecord {
         this.returnDate = returnDate;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public Book getBook() {
-        return book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
-    }
-
-    public LibraryUser getLibraryUser() {
-        return libraryUser;
-    }
-
-    public void setLibraryUser(LibraryUser libraryUser) {
-        this.libraryUser = libraryUser;
-    }
-
-    public Date getBorrowDate() {
-        return borrowDate;
-    }
-
-    public void setBorrowDate(Date borrowDate) {
-        this.borrowDate = borrowDate;
-    }
-
-    public Date getReturnDate() {
-        return returnDate;
-    }
-
-    public void setReturnDate(Date returnDate) {
-        this.returnDate = returnDate;
-    }
 
     //METHODS
     public static String borrowBook(String isbn, String libraryUserName, Date borrowDate, Date returnDate) {
