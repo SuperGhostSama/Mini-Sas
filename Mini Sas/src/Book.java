@@ -33,6 +33,11 @@ public class Book {
         this.reserved = reserved;
         this.lost = lost;
     }
+
+    public Book() {
+
+    }
+
     @Override
     public String toString() {
         return String.format("%-4s %-50s %-30s %-30s %-10s %-10s %-10s %-10s%n",
@@ -230,11 +235,18 @@ public class Book {
             return errorMessage; // Return the error message as the result
         }
 
+        // Set reserved and lost to 0
+        this.reserved = 0;
+        this.lost = 0;
+
+        // quantity = available
+        this.available = this.quantity;
+
         String insertSql = "INSERT INTO books (title, author_id, isbn, quantity, available, reserved, lost) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = JDBC.getConnection();
              PreparedStatement statement = connection.prepareStatement(insertSql)) {
             statement.setString(1, this.title);
-            statement.setInt(2, authorId); // Use the retrieved authorId
+            statement.setInt(2, authorId);
             statement.setString(3, this.isbn);
             statement.setInt(4, this.quantity);
             statement.setInt(5, this.available);
@@ -250,52 +262,14 @@ public class Book {
     }
 
 
-
-    public String editBook() {
-        String updateSql = "UPDATE books SET title = ?, author_id = ?,isbn = ?, quantity = ?, available = ?, reserved = ?, lost = ? WHERE id = ?";
-
-        try (Connection connection = JDBC.getConnection();
-             PreparedStatement statement = connection.prepareStatement(updateSql)) {
-
-            // Set the parameters in the prepared statement
-            statement.setString(1, this.title);
-            statement.setObject(2, this.author.getId());
-            statement.setString(3, this.isbn);
-            statement.setInt(4, this.quantity);
-            statement.setInt(5, this.available);
-            statement.setInt(6, this.reserved);
-            statement.setInt(7, this.lost);
-            statement.setInt(8, this.id);
-
-            // Execute the update statement
-            int rowsUpdated = statement.executeUpdate();
-
-            if (rowsUpdated > 0) {
-                String successMessage = "Edited successfully";
-                System.out.println(successMessage);
-                return successMessage;
-            } else {
-                String errorMessage = "Book with ID " + id + " not found.";
-                System.out.println(errorMessage);
-                return errorMessage;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-
-            String errorMessage = "Error editing book: " + e.getMessage();
-            System.out.println(errorMessage);
-            return errorMessage;
-        }
-    }
-
-    public static String deleteBook(int id) {
-        String deleteSql = "DELETE FROM books WHERE id = ?";
+    public static String deleteBook(String isbn) {
+        String deleteSql = "DELETE FROM books WHERE isbn = ?";
 
         try (Connection connection = JDBC.getConnection();
              PreparedStatement statement = connection.prepareStatement(deleteSql)) {
 
-            // Set the id parameter in the prepared statement
-            statement.setInt(1, id);
+            // Set the ISBN parameter in the prepared statement
+            statement.setString(1, isbn);
 
             // Execute the delete statement
             int rowsDeleted = statement.executeUpdate();
@@ -305,7 +279,7 @@ public class Book {
                 System.out.println(successMessage);
                 return successMessage;
             } else {
-                String errorMessage = "Book with ID " + id + " not found.";
+                String errorMessage = "Book with ISBN '" + isbn + "' not found.";
                 System.out.println(errorMessage);
                 return errorMessage;
             }
@@ -485,7 +459,6 @@ public class Book {
     }
 
 
-    // Helper method to get the author ID by name, or add the author if not present
     private int getAuthorIdByName(String authorName) {
         int authorId = -1;
         try (Connection connection = JDBC.getConnection()) {
@@ -504,10 +477,138 @@ public class Book {
         return authorId;
     }
 
+    public String updateTitle(String isbn, String newTitle) {
+       
+
+        String updateSql = "UPDATE books SET title = ? WHERE isbn = ?";
+        String resultMessage = "";
+
+        try (Connection connection = JDBC.getConnection();
+             PreparedStatement statement = connection.prepareStatement(updateSql)) {
+
+            statement.setString(1, newTitle);
+            statement.setString(2, isbn);
+
+            int rowsUpdated = statement.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                resultMessage = "Title updated successfully.";
+            } else {
+                resultMessage = "Book with ISBN '" + isbn + "' not found.";
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            resultMessage = "Error updating title: " + e.getMessage();
+        }
+
+        return resultMessage;
+    }
 
 
+    public String updateIsbn(String isbn, String newIsbn) {
+        String updateSql = "UPDATE books SET isbn = ? WHERE isbn = ?";
+        String resultMessage = "";
+
+        try (Connection connection = JDBC.getConnection();
+             PreparedStatement statement = connection.prepareStatement(updateSql)) {
+
+            statement.setString(1, newIsbn);
+            statement.setString(2, isbn);
+
+            int rowsUpdated = statement.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                resultMessage = "ISBN updated successfully.";
+            } else {
+                resultMessage = "Book with ISBN '" + isbn + "' not found.";
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            resultMessage = "Error updating ISBN: " + e.getMessage();
+        }
+
+        return resultMessage;
+    }
 
 
+    public String updateAuthorName(String isbn, String newAuthorName) {
+        int authorId = getAuthorIdByName(newAuthorName);
+        String resultMessage = "";
+
+        if (authorId == -1) {
+            resultMessage = "Author with name '" + newAuthorName + "' not found.";
+            return resultMessage;
+        }
+
+        String updateSql = "UPDATE books SET author_id = ? WHERE isbn = ?";
+
+        try (Connection connection = JDBC.getConnection();
+             PreparedStatement statement = connection.prepareStatement(updateSql)) {
+
+            statement.setInt(1, authorId);
+            statement.setString(2, isbn);
+
+            int rowsUpdated = statement.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                resultMessage = "Author name updated successfully.";
+            } else {
+                resultMessage = "Book with ISBN '" + isbn + "' not found.";
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            resultMessage = "Error updating author name: " + e.getMessage();
+        }
+
+        return resultMessage;
+    }
+
+
+    public String updateQuantity(String isbn, int newQuantity) {
+        String updateSql = "UPDATE books SET quantity = ?, available = available + ? - quantity WHERE isbn = ?";
+        String resultMessage = "";
+
+        try (Connection connection = JDBC.getConnection();
+             PreparedStatement statement = connection.prepareStatement(updateSql)) {
+
+            statement.setInt(1, newQuantity);
+            statement.setInt(2, newQuantity - this.quantity); // Calculate the difference and adjust available accordingly
+            statement.setString(3, isbn);
+
+            int rowsUpdated = statement.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                resultMessage = "Quantity updated successfully.";
+            } else {
+                resultMessage = "Book with ISBN '" + isbn + "' not found.";
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            resultMessage = "Error updating quantity: " + e.getMessage();
+        }
+
+        return resultMessage;
+    }
+
+    public boolean checkIsbnExistence(String isbn) {
+        String selectSql = "SELECT COUNT(*) FROM books WHERE isbn = ?";
+
+        try (Connection connection = JDBC.getConnection();
+             PreparedStatement statement = connection.prepareStatement(selectSql)) {
+
+            statement.setString(1, isbn);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                int count = resultSet.getInt(1);
+                return count > 0; // If count is greater than 0, ISBN exists
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 
 
 

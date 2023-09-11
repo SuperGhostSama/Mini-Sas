@@ -41,78 +41,113 @@ public class Main {
                     break;
 
                 case 2:
-                    System.out.println("Enter Title :");
+                    // Add Book
+                    System.out.println("Enter Title:");
                     String title = scanner.nextLine();
 
-                    System.out.println("Enter author Name :");
-                    String author_name = scanner.nextLine();
-                    Author author = new Author(author_name);
+                    System.out.println("Enter author Name:");
+                    String authorName = scanner.nextLine();
+                    Author author = new Author(authorName);
 
-                    System.out.println("Enter isbn :");
+                    System.out.println("Enter isbn:");
                     String isbn = scanner.nextLine();
 
-                    System.out.println("Enter quantity :");
+                    System.out.println("Enter quantity:");
                     int quantity = Integer.parseInt(scanner.nextLine());
 
-                    System.out.println("Enter available quantity :");
-                    int available = Integer.parseInt(scanner.nextLine());
-
-                    System.out.println("Enter reserved quantity :");
-                    int reserved = Integer.parseInt(scanner.nextLine());
-
-                    System.out.println("Enter lost quantity :");
-                    int lost = Integer.parseInt(scanner.nextLine());
+                    //set to 0
+                    int available = 0;
+                    int reserved = 0;
+                    int lost = 0;
 
                     Book book = new Book(title, author, isbn, quantity, available, reserved, lost);
                     book.addBook();
 
-
                     break;
+
 
                 case 3:
-                    //
-                    System.out.println("Enter Book Id To Edit :");
-                    int editId = Integer.parseInt(scanner.nextLine());
+                    // Edit Book
+                    System.out.println("Enter Book ISBN To Edit:");
+                    String isbnToEdit = scanner.nextLine();
 
-                    System.out.println("Enter New Title :");
-                    String newTitle = scanner.nextLine();
+                    // Create an instance of the Book class
+                    Book editBook = new Book();
 
-                    System.out.println("Enter New author id :");
-                    int newAuthor_id = Integer.parseInt(scanner.nextLine());
-                    author = new Author(newAuthor_id);
+                    // Add a nested switch case for more editing options
+                    while (true) {
 
-                    System.out.println("Enter New isbn :");
-                    String newIsbn = scanner.nextLine();
+                        System.out.println("Select what you want to edit:");
+                        System.out.println("1. Title");
+                        System.out.println("2. ISBN");
+                        System.out.println("3. Quantity");
+                        System.out.println("4. Author Name");
+                        System.out.println("5. Done Editing");
 
-                    System.out.println("Enter New quantity :");
-                    int newQuantity = Integer.parseInt(scanner.nextLine());
+                        int editChoice = Integer.parseInt(scanner.nextLine());
 
-                    System.out.println("Enter New available :");
-                    int newAvailable = Integer.parseInt(scanner.nextLine());
+                        switch (editChoice) {
+                            case 1:
+                                // Edit Title
+                                System.out.println("Enter New Title:");
+                                String newTitle = scanner.nextLine();
 
-                    System.out.println("Enter New reserved :");
-                    int newReserved = Integer.parseInt(scanner.nextLine());
+                                String titleUpdateResult = editBook.updateTitle(isbnToEdit, newTitle);
+                                System.out.println(titleUpdateResult);
+                                break;
+                            case 2:
+                                // Edit ISBN
+                                System.out.println("Enter New ISBN:");
+                                String newIsbn = scanner.nextLine();
 
-                    System.out.println("Enter New lost :");
-                    int newLost = Integer.parseInt(scanner.nextLine());
+                                String isbnUpdateResult = editBook.updateIsbn(isbnToEdit, newIsbn);
+                                System.out.println(isbnUpdateResult);
+                                break;
+                            case 3:
+                                // Edit Quantity
+                                System.out.println("Enter New Quantity:");
+                                int newQuantity = Integer.parseInt(scanner.nextLine());
 
-                    Book bookToEdit= new Book(editId,newTitle,author, newIsbn,newQuantity,newAvailable,newReserved,newLost);
-                    bookToEdit.editBook();
+                                String quantityUpdateResult = editBook.updateQuantity(isbnToEdit, newQuantity);
+                                System.out.println(quantityUpdateResult);
+                                break;
+                            case 4:
+                                // Edit Author Name
+                                System.out.println("Enter New Author Name:");
+                                String newAuthorName = scanner.nextLine();
 
+                                String authorNameUpdateResult = editBook.updateAuthorName(isbnToEdit, newAuthorName);
+                                System.out.println(authorNameUpdateResult);
+                                break;
+                            case 5:
+                                // Done Editing
+                                System.out.println("Done Editing");
+                                break;
+                            default:
+                                System.out.println("Invalid choice.");
+                                break;
+                        }
+
+                        if (editChoice == 5) {
+                            break;
+                        }
+                    }
 
                     break;
+
+
+
+
 
                 case 4:
-                    //
-                    System.out.println("Enter Book Id To Delete :");
-                    int bookid = Integer.parseInt(scanner.nextLine());
+                    // Delete Book
+                    System.out.println("Enter ISBN To Delete:");
+                    String isbnToDelete = scanner.nextLine();
 
-                    String deleteResult = Book.deleteBook(bookid);
-                    System.out.println(deleteResult);
-
-
+                    String deleteResult = Book.deleteBook(isbnToDelete);
 
                     break;
+
 
                 case 5:
                     // Borrow Book
@@ -238,6 +273,9 @@ public class Main {
                     System.out.println("Reserved Books: " + reservedBooksStats);
                     System.out.println("Lost Books: " + lostBooksStats);
                     System.out.println("Total Users: " + totalUsersStats);
+
+                    System.out.println("Press Enter to return to menu...");
+                    scanner.nextLine();
                     break;
 
 
