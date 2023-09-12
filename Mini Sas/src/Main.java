@@ -280,15 +280,10 @@ public class Main {
 
                     case 8:
                         // View Reserved Books
-                        List<Book> reservedBooks = Book.showReservedBooks();
-                        if (reservedBooks.isEmpty()) {
-                            System.out.println("No reserved books found.");
-                        } else {
-                            System.out.println("Reserved Books:");
-                            for (Book reservedBook : reservedBooks) {
-                                System.out.println(reservedBook.toString());
-                            }
-                        }
+                        BorrowingRecord.viewReservedBooks();
+
+                        System.out.println("Press Enter to return to the main menu...");
+                        scanner.nextLine();
                         break;
 
 
@@ -533,4 +528,6 @@ public class Main {
             System.out.println(book.toString());
         }
     }
+
+
 }

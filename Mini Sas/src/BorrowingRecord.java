@@ -2,6 +2,8 @@ import java.util.Date;
 import java.sql.*;
 import java.util.Calendar;
 import Connection.JDBC;
+import java.text.SimpleDateFormat;
+
 
 public class BorrowingRecord {
     private int id;
@@ -167,4 +169,45 @@ public class BorrowingRecord {
         return libraryUserId;
     }
 
+
+    public static void viewReservedBooks() {
+        try (Connection connection = JDBC.getConnection()) {
+            String selectReservedBooksSql = "SELECT br.id, b.isbn, b.title, u.name AS userName, br.borrowdate, br.returndate " +
+                    "FROM borrowingrecord br " +
+                    "INNER JOIN books b ON br.book_id = b.id " +
+                    "INNER JOIN libraryuser u ON br.libraryuser_id = u.id " +
+                    "WHERE b.reserved > 0";
+
+            try (PreparedStatement selectReservedBooksStatement = connection.prepareStatement(selectReservedBooksSql)) {
+                ResultSet reservedBooksResultSet = selectReservedBooksStatement.executeQuery();
+
+                System.out.println("Reserved Books:");
+                System.out.println("------------------------------------------------");
+
+                while (reservedBooksResultSet.next()) {
+                    int recordId = reservedBooksResultSet.getInt("id");
+                    String isbn = reservedBooksResultSet.getString("isbn");
+                    String title = reservedBooksResultSet.getString("title");
+                    String userName = reservedBooksResultSet.getString("userName");
+                    Date borrowDate = reservedBooksResultSet.getDate("borrowdate");
+                    Date returnDate = reservedBooksResultSet.getDate("returndate");
+
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    String borrowDateStr = dateFormat.format(borrowDate);
+                    String returnDateStr = dateFormat.format(returnDate);
+
+                    System.out.println("Record ID: " + recordId);
+                    System.out.println("ISBN: " + isbn);
+                    System.out.println("Title: " + title);
+                    System.out.println("User Name: " + userName);
+                    System.out.println("Borrow Date: " + borrowDateStr);
+                    System.out.println("Return Date: " + returnDateStr);
+                    System.out.println("------------------------------------------------");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
 }
