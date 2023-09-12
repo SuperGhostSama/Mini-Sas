@@ -342,7 +342,7 @@ public class Main {
 
                         System.out.println("Library Statistics:");
                         System.out.println("Total Books: " + totalBooksStats);
-                        System.out.println("Available Books: " + availableBooksStats);
+                        System.out.println("Available Copies Of Books: " + availableBooksStats);
                         System.out.println("Reserved Books: " + reservedBooksStats);
                         System.out.println("Lost Books: " + lostBooksStats);
                         System.out.println("Total Users: " + totalUsersStats);
